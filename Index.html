@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Recuerdos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #ffecd2 50%, #fcb69f 75%, #ff9a9e 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .counter-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 4px solid #fecfef;
+        }
+
+        .counter-section h2 {
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+
+        .counter {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .counter-item {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            min-width: 120px;
+            border: 3px solid #ff6b9d;
+        }
+
+        .counter-item .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .counter-item .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .memories-section {
+            margin: 50px 0;
+        }
+
+        .section-title {
+            color: white;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .memories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .memory-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 4px solid #ff9a9e;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.4);
+            border-color: #fecfef;
+        }
+
+        .memory-card h3 {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .memory-card .date {
+            color: #ffa5c0;
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .memory-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .memory-photo {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ffecd220, #fecfef20);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            border: 3px dashed #ff9a9e;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: white;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 45%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border: 3px solid #fecfef;
+        }
+
+        .timeline-content h3 {
+            color: #ff6b9d;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content .date {
+            color: #ffa5c0;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #ff9a9e;
+            border-radius: 50%;
+        }
+
+        .letter-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 4px solid #fecfef;
+        }
+
+        .letter-section h2 {
+            color: #ff6b9d;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .letter-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 30px;
+            font-style: italic;
+            color: #ff6b9d;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            font-size: 1.2em;
+        }
+
+        .heart {
+            color: #ff6b9d;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-content {
+                width: 100%;
+                margin-left: 40px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .counter {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nuestros Recuerdos ❤️</h1>
+            <p style="font-size: 1.2em; margin: 10px 0;">Un espacio especial para ti mi bebe🥺</p>
+            <p>Te amo mucho mi tiquitita 🥺🤍</p>
+        </div>
+
+        <div class="counter-section">
+            <h2>Tiempo Juntos</h2>
+            <div class="counter">
+                <div class="counter-item">
+                    <span class="number" id="days">419</span>
+                    <span class="label">Días</span>
+                </div>
+                <div class="counter-item">
+                    <span class="number" id="hours">0</span>
+                    <span class="label">Horas</span>
+                </div>
+                <div class="counter-item">
+                    <span class="number" id="minutes">0</span>
+                    <span class="label">Minutos</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Momentos Especiales</h2>
+        <div class="memories-grid">
+            <div class="memory-card">
+                <img src="IMG-20241027-WA0026.jpg" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                <h3>Nuestra Primera Foto 🥺🤍</h3>
+            </div>
+
+            <div class="memory-card">
+                <video controls style="width: 100%; height: 250px; border-radius: 10px;">
+    <source src="VID-20241101-WA0008.mp4" type="video/mp4">
+</video>
+                <h3>Mi Momento Favorito 🥺🤍</h3>
+            </div>
+
+            <div class="memory-card">
+                <img src="IMG-20250728-WA0046.jpg" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                <h3>Mi Foto Favorita Tuya Mi Bebe 🥺🤍</h3>
+            </div>
+        </div>
+
+        <h2 class="section-title">Nuestra Historia</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>El Comienzo</h3>
+                    <p>Todo comenzó cuando te vi mi bebe,🤍🥺te ame al instante que te vi, no sabía que te amaría con tanta intensidad, solo sabía que quería ser tuyo🥺🤍quería saber como amarte y hacerte feliz.🤍</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Nos Hicimos Novias</h3>
+                    <p>Un día, el dia de tu cumpleaños🥺🤍después de tanta decision quize intentar tener y pertenecer a tu vida🤍🥺y que tu fuerzas parte de la mia🥺🤍y fui a tu casa y con todo el amor de mi alma te lo pedi🤍🥺</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Un Momento Importante</h3>
+                    <p>Bueno creo que ahora es importante, poque quiero arreglar todo contigo mi bebe🥺🤍quiero que estemos bien🤍🥺que seamos como antes🥺🤍que los dos cambiemos juntos🤍🥺quiero amarte y entregarte todo de mi🥺🤍quiero que estemos juntos de nuevo🤍🥺</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Hoy y Siempre</h3>
+                    <p>Hoy y siempre te ame te amo y te amare mucho mi bebe🥺🤍siempre recuerdalo🤍🥺y si lo recuerdas se que quieres vivir conmigo🥺🤍quiero que seamos nosotros hasta el final de nuestras vidas🤍🥺quiero tener nuestra vida, y contarla a todos 🥺🤍quiero amarte por toda mi vida🥺🤍</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+
+        <div class="letter-section">
+            <h2>Para Mi Bebe🤍🥺</h2>
+            <div class="letter-content">
+                <p>Hola mi bebe,🤍🥺quiza no estemos bien🥺🤍pero quiero estarlo ahora quiero estarlo, 🤍🥺 si ahora y siempre quiero estar contigo 🤍🥺quiero amarte quiero darte todo de mi🥺🤍quiero ser completamente tuyo🤍🥺y te amo mucho muchisisimo mi princesa hermosa 🥺🤍</p>
+                <br>
+                <p>Sabes mi bebe🤍🥺te amo y siempre lo he hecho y nunca dejare de hacerlo, porque tu eres quien me hace feliz🥺🤍eres con quien quiero estar toda mi vida 🤍🥺 eres todo para mi🥺🤍</p>
+                <br>
+                <p>Ashi que si queles y lee eto sholo legesa a mi,🤍🥺quielo que regrese mi bebe, y prometo no hacerle mas daño🥺🤍❤️‍🩹quiero amarla quiero estar junto a ella para siempre✨️🥺🤍</p>
+                <br>
+                <div class="signature">Con todo mi amor 🤍🥺</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Te amo mucho mi vida🤍🥺espelo te haya gustado mi bebe🥺🤍✨️</p>
+        </div>
+    </div>
+
+    <script>
+        const startDate = new Date('2024-09-12T00:00:00');
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+        }
+
+        updateCounter();
+        setInterval(updateCounter, 60000);
+    </script>
+</body>
+</html>
